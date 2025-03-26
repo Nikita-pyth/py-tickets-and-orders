@@ -63,9 +63,9 @@ class MovieSession(models.Model):
 
 class Order(models.Model):
     fixed_time = datetime(2020, 11, 10, 14, 40)
-    created_at = models.DateTimeField(default=fixed_time)
-    # auto_now_add=True
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey("User", related_name="orders",
+                             on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["-created_at"]  # Newest orders first
@@ -76,8 +76,10 @@ class Order(models.Model):
 
 
 class Ticket(models.Model):
-    movie_session = models.ForeignKey("MovieSession", on_delete=models.CASCADE)
-    order = models.ForeignKey("Order", on_delete=models.CASCADE)
+    movie_session = models.ForeignKey("MovieSession", related_name="tickets",
+                                      on_delete=models.CASCADE)
+    order = models.ForeignKey("Order", related_name="tickets",
+                              on_delete=models.CASCADE)
     row = models.IntegerField()
     seat = models.IntegerField()
 
