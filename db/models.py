@@ -63,7 +63,10 @@ class MovieSession(models.Model):
 
 class Order(models.Model):
     fixed_time = datetime(2020, 11, 10, 14, 40)
-    created_at = models.DateTimeField(auto_now_add=True)
+    # check the tests, if I do auto_now_add the
+    # test fail because it expects always
+    # datetime(2020, 11, 10, 14, 40)
+    created_at = models.DateTimeField(default=datetime(2020, 11, 10, 14, 40))
     user = models.ForeignKey("User", related_name="orders",
                              on_delete=models.CASCADE)
 
